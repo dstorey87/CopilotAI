@@ -1,20 +1,16 @@
 const axios = require('axios');
 require('dotenv').config();
+const contentModel = require('../models/contentModel');
+const logger = require('../utils/logger');
 
-exports.generateContent = async (topic) => {
-  const apiKey = process.env.OPENAI_API_KEY;
-  const response = await axios.post(
-    'https://api.openai.com/v1/engines/davinci-codex/completions',
-    {
-      prompt: `Write a blog post about ${topic}`,
-      max_tokens: 150,
-    },
-    {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  );
-  return response.data.choices[0].text;
+exports.generateContent = async (req, res) => {
+  try {
+    const { topic } = req.body;
+    const response = await axios.post('https://copilotai-1.onrender.com/api/generate', { topic });
+    const content = response.data.content;
+    res.json({ content });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({ error: 'Failed to generate content' });
+  }
 };
