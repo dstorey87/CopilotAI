@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: 'https://kaleidoscopic-bunny-d7bd04.netlify.app', // Replace with your Netlify domain
+  origin: ['https://kaleidoscopic-bunny-d7bd04.netlify.app', 'http://localhost:3000'], // Replace with your frontend URLs
   methods: ['POST', 'GET'],
   allowedHeaders: ['Content-Type'],
 }));
