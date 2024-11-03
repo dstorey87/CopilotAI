@@ -9,7 +9,11 @@ const logger = require('./utils/logger');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://kaleidoscopic-bunny-d7bd04.netlify.app', // Replace with your Netlify domain
+  methods: ['POST', 'GET'],
+  allowedHeaders: ['Content-Type'],
+}));
 app.use(express.json());
 app.use('/api', apiRoutes);
 
