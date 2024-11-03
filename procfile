@@ -1,1 +1,1 @@
-web: node [app.js](http://_vscodecontentref_/4)
+web: cd backend && node app.js
