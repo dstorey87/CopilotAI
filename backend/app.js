@@ -16,14 +16,14 @@ const corsOptions = {
     if (!origin) return callback(null, true);
     
     // Allow any subdomain of netlify.app
-    const netlifyPattern = /\.netlify\.app$/;
-    if (netlifyPattern.test(origin)) {
+    const netlifyPattern = /^https?:\/\/.*\.netlify\.app$/;
+    if (netlifyPattern.test(origin) || origin === 'http://localhost:3000') {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['POST', 'GET'],
+  methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 };
 
