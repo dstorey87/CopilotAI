@@ -9,11 +9,30 @@ const logger = require('./utils/logger');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: ['https://kaleidoscopic-bunny-d7bd04.netlify.app', 'http://localhost:3000'], // Replace with your frontend URLs
+// Define CORS options with dynamic origin handling
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    
+    // Allow any subdomain of netlify.app
+    const netlifyPattern = /\.netlify\.app$/;
+    if (netlifyPattern.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['POST', 'GET'],
   allowedHeaders: ['Content-Type'],
-}));
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
+
 app.use(express.json());
 app.use('/api', apiRoutes);
 
