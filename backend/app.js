@@ -25,6 +25,7 @@ const corsOptions = {
   },
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
+  credentials: true, // If you need to send cookies or authorization headers
 };
 
 // Apply CORS middleware
